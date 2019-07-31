@@ -1,0 +1,126 @@
+<!Doctype html>
+<html lang="ko">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>game_bar</title>
+
+    <script type="text/javascript">
+		var i = 0;
+		var h = 0;
+
+		document.onkeyup = function(e){ //e == 이벤트 값
+			//왼쪽 방향키
+			//user1
+			if(e.keyCode == 37){
+				if(i<=290&&h<=290){
+					i=i+10;
+					document.querySelector('#user1bar').style.width=i+"px";
+					if(i==300){
+						alert('User1 win')
+					}
+			}
+		}
+			//오른쪽 방향키
+			//user2
+
+			else if(e.keyCode == 39){
+				if(h<=290&&i<=290){
+					h=h+10;
+					document.querySelector("#user2bar").style.width=h+"px";
+					if(h==300){
+						alert('User2 win')
+					}
+				}
+			}
+		}
+
+
+	</script>
+	<style type="text/css">
+		.progress {
+			width: 300px;
+			height: 40px;
+			background-color: gray;
+			margin-bottom: 46px;
+		}
+		.bar {
+			background-color: red;
+			height: 40px;
+			width: 0px;
+		}
+        textarea{resize:none;}
+        @font-face { font-family: 'NanumSquareRound'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff'); font-weight: normal; font-style: normal; }
+        @font-face { font-family: 'Godo'; font-style: normal; font-weight: 400; src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoM.woff') format('woff'); } @font-face { font-family: 'Godo'; font-style: normal; font-weight: 700; src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/godo/Godo/GodoB.woff') format('woff'); } .godo * { font-family: 'Godo', sans-serif; }
+        @font-face { font-family: '777Balsamtint'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/777Balsamtint.woff') format('woff'); font-weight: normal; font-style: normal; }
+        @font-face { font-family: 'yg-jalnan'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff'); font-weight: normal; font-style: normal; }
+	</style>
+
+</head>
+
+  <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+	  <a class="navbar-brand" href="{% url 'home' %}">Mini Game - Bar</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
+</nav>
+
+<div class = "container jumbotron">
+<h1 style="font-family: 'yg-jalnan'">막대기 게임</h1>
+<h3 style="font-family: '777Balsamtint'">👉방향키를 이용한 게임</h3>
+<h3 style="font-family: '777Balsamtint'">👉누가 먼저 막대기를 채울까요??</>
+<br>
+<br>
+
+    <!-- 게이지 차는 창 -->
+<h4 style="font-family: 'Godo'">User1 - 왼쪽 방향키</h4>
+<div id = "user1" class="progress">
+	<div id="user1bar" class ="bar"></div>
+</div>
+<br>
+<h4 style="font-family: 'Godo'">User2 - 오른쪽 방향키</h4>
+<div id = "user2" class="progress">
+	<div id="user2bar" class = "bar"></div>
+</div>
+
+<br>
+<hr>
+<h4>⚠️게임을 다시 시작하고 싶으면 새로 고침(F5)⚠️</h4>
+</div>
+
+<hr>
+<div class = "container jumbotron">
+    <div class = "card my-4">
+        <h5 class = "card-header" style="font-family: 'NanumSquareRound'">댓글</h5>
+        <div class="card-body">
+        <form action="{% url 'home' %}"  method = "POST">
+        {% csrf_token %}
+        <div class = "form-group" style="font-family: 'NanumSquareRound'">{{comment_form}}</div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+    </div>
+</div>
+    <hr>
+<div class = "container jumbotron">
+    <ul class="list-group list-group-flush" >
+    {% for comment in comments %}
+    <li class="list-group-item" style="font-family: 'NanumSquareRound'">{{comment.text|linebreaksbr}}<p style="font-family: 'NanumSquareRound'">{{comment.created|date:"Y-m-d"}}</p></li>
+    {% endfor %}
+    </ul>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
